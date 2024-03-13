@@ -1,28 +1,27 @@
-import "./App.css";
-//import Courses from "./courses";
 import { useState } from "react";
+import "./App.css";
+import Axios from "axios";
 
- function App() {
-  const [count , setCount]=useState(0);
-  return(
-    <div>
-      <button onClick={()=>setCount(count+1)}>increase</button>
-      <button onClick={()=>setCount(count-1)}>decrease</button>
-      <button onClick={()=>setCount(0)}>set to zero</button>
-      <h1>{count}</h1>
+function App() {
+  const [getExcuse, setGetExcuse] = useState("");
+
+  const getFetch = (excuse) => {
+    Axios.get(`https://excuser-three.vercel.app/v1/excuse/${excuse}/`).then(
+      (res) => {
+        setGetExcuse(res.data[0].excuse);
+      }
+    );
+  };
+
+  return (
+    <div className="App">
+      <h1>Generate an excuse</h1>
+      <button onClick={() => getFetch("party")}>Party</button>
+      <button onClick={() => getFetch("family")}>Family</button>
+      <button onClick={() => getFetch("office")}>Office</button>
+      <h1>{getExcuse}</h1>
     </div>
-  )
- }
-//   return <Courses  />;
-// }
-// const JobComponent = (prop) => {
-//   return (
-//     <div>
-//       <h1>{prop.salary}</h1>
-//       <h2>{prop.jobTitel}</h2>
-//       <h3>{prop.company}</h3>
-//     </div>
-//   );
-// };
+  );
+}
 
 export default App;
